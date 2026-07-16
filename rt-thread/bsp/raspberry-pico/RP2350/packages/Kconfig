@@ -1,0 +1,11 @@
+if PKG_USING_RASPBERRYPI_PICO_RP2350_SDK
+    source "$PKGS_DIR/raspberrypi-pico-rp2350-sdk-latest/Kconfig"
+endif
+
+config PKG_USING_LVGL
+    bool
+    default n
+
+if PKG_USING_LVGL
+    osource "$PKGS_DIR/lvgl-v8.3-latest/Kconfig"
+endif

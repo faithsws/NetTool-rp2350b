@@ -1,35 +1,33 @@
 # NetTool-rp2350b
 
-RP2350B 网络巡线对线仪固件 — RT-Thread BSP，含 CH390 以太网与 FinSH 网络工具。
+RP2350B 网络巡线对线仪固件源码。
 
-## 功能
+本仓库**仅包含当前固件实际编译依赖的源文件与头文件**（由 `compile_commands.json` + `gcc -MM` 收集），不包含未使用的 RT-Thread BSP / 组件。
 
-- **CH390 网卡**：DHCP、ping、链路状态
-- **端口探测**：`tcp_probe`、`udp_probe`
-- **应用层探测**：`http_get`、`ws_probe`
-- **网络工具**：`dns_lookup`、`arp`、`eth_info`、`ssdp_*`、`link_blink`
+## 目录结构
 
-## 目录说明
-
-本仓库为 RP2350 BSP 工程。需配合 [RT-Thread](https://github.com/RT-Thread/rt-thread) 使用：
-
-1. 克隆 RT-Thread
-2. 将本仓库内容放到 `rt-thread/bsp/raspberry-pico/RP2350/`
-3. 将 `rt-thread-patches/` 下文件覆盖到对应 RT-Thread 路径（CH390 驱动等）
+```
+NetTool-rp2350b/
+├── rt-thread/                 # 实际用到的内核、组件、驱动、本板 BSP
+│   └── bsp/raspberry-pico/RP2350/
+│       ├── CMakeLists.txt
+│       ├── applications/
+│       ├── board/
+│       └── packages/          # LVGL / Pico SDK（仅依赖部分）
+├── HZK12 / HZK16              # 字库
+└── build.bat
+```
 
 ## 构建
 
-```bash
-cd build-ninja
+```bat
+cd rt-thread\bsp\raspberry-pico\RP2350
+mkdir build-ninja & cd build-ninja
 cmake -G Ninja ..
 ninja rtthread.elf
 ```
 
-UF2 转换（RP2350）：
-
-```bash
-picotool uf2 convert rtthread.elf rtthread.uf2 --family rp2350-arm-s --abs-block
-```
+依赖：ARM GNU Toolchain、CMake、Ninja。
 
 ## FinSH 示例
 
